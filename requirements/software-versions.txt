@@ -1,0 +1,14 @@
+# FraudLens software environment
+Operating system: Ubuntu Linux
+Java: OpenJDK 8
+Hadoop: 3.3.6
+Apache Pig: 0.17.0
+Apache Hive: 4.0.1
+Apache Spark: 3.5.9
+Python: 3.12
+Python NumPy: 1.26.4
+Python packaging: Ubuntu package python3-packaging
+
+# Spark must use the Hadoop 3 distribution.
+# PySpark's image.py and pyspark.zip need the compatibility
+# patch documented in the FraudLens setup instructions.

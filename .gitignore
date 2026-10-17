@@ -1,0 +1,76 @@
+
+# FraudLens: local machine configuration
+config/fraudlens.env
+
+# Raw datasets and generated data
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.orc
+
+# Generated models and predictions
+spark/models/
+spark/model/
+spark/predictions/
+spark/results/spark_fraud_predictions/
+models/
+predictions/
+
+# Local databases and runtime state
+metastore_db/
+spark-warehouse/
+hadoop_data/
+*.pid
+*.out
+
+# Logs and temporary output
+*.log
+*.tmp
+*.bak
+*.before_*
+__pycache__/
+*.py[cod]
+
+# Local archives and installed software
+*.zip
+*.tgz
+*.tar.gz
+hadoop/
+pig-*/
+hive/
+spark-*-bin-hadoop*/
+
+# Machine-specific environment
+config/fraudlens.env
+
+# Raw datasets
+data/raw/
+data/processed/
+*.csv
+
+# Generated predictions and models
+artifacts/
+models/
+predictions/
+spark/results/*.log
+
+# Runtime files and local databases
+derby.log
+metastore_db/
+spark-warehouse/
+hadoop_data/
+*.pid
+*.pyc
+__pycache__/
+
+# Local backups
+*.backup
+*.backup_*
+*.before_*
+*.bak
+
+# Downloaded software archives
+*.zip
+*.tgz
+*.tar.gz
