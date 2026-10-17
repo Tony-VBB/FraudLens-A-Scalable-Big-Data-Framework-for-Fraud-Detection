@@ -1,7 +1,7 @@
 -- FraudLens: PaySim data cleaning using Apache Pig
 
 -- Load the raw PaySim CSV from HDFS.
-raw_data = LOAD '/fraudlens/raw/PS_20174392719_1491204439457_log.csv'
+raw_data = LOAD 'hdfs:///fraudlens/raw/PS_20174392719_1491204439457_log.csv'
 USING PigStorage(',')
 AS (
     step:chararray,

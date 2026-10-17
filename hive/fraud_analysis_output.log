@@ -1,0 +1,630 @@
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/balaji/Desktop/Big_data%20_lab_7/apache-hive-4.0.1-bin/lib/log4j-slf4j-impl-2.18.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/balaji/hadoop/share/hadoop/common/lib/slf4j-reload4j-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/balaji/Desktop/Big_data%20_lab_7/apache-hive-4.0.1-bin/lib/log4j-slf4j-impl-2.18.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/balaji/hadoop/share/hadoop/common/lib/slf4j-reload4j-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Connecting to jdbc:hive2://localhost:10000/default
+Connected to: Apache Hive (version 4.0.1)
+Driver: Hive JDBC (version 4.0.1)
+Transaction isolation: TRANSACTION_REPEATABLE_READ
+0: jdbc:hive2://localhost:10000/default> -- FraudLens: PayS im fraud analysis using Apache Hive
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> CREATE DATABASE IF  NOT EXISTS fraudlens;
+INFO  : Compiling command(queryId=balaji_20261017045448_91b84636-f8f7-4f3b-9d03-ab0ffe558576): CREATE DATABASE IF NOT EXISTS fraudlens
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:null, properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045448_91b84636-f8f7-4f3b-9d03-ab0ffe558576); Time taken: 0.051 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045448_91b84636-f8f7-4f3b-9d03-ab0ffe558576): CREATE DATABASE IF NOT EXISTS fraudlens
+INFO  : Starting task [Stage-0:DDL] in serial mode
+INFO  : Completed executing command(queryId=balaji_20261017045448_91b84636-f8f7-4f3b-9d03-ab0ffe558576); Time taken: 1.747 seconds
+No rows affected (1.843 seconds)
+0: jdbc:hive2://localhost:10000/default> USE fraudlens;
+INFO  : Compiling command(queryId=balaji_20261017045450_48fdb380-a344-415c-9635-fee4e34cbb6b): USE fraudlens
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:null, properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045450_48fdb380-a344-415c-9635-fee4e34cbb6b); Time taken: 0.039 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045450_48fdb380-a344-415c-9635-fee4e34cbb6b): USE fraudlens
+INFO  : Starting task [Stage-0:DDL] in serial mode
+INFO  : Completed executing command(queryId=balaji_20261017045450_48fdb380-a344-415c-9635-fee4e34cbb6b); Time taken: 0.014 seconds
+No rows affected (0.07 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- External table  over the cleaned PaySim data in HDFS.
+0: jdbc:hive2://localhost:10000/default> CREATE EXTERNAL TA BLE IF NOT EXISTS paysim_cleaned (
+. . . . . . . . . . . . . . . . . . . .>     step INT,
+. . . . . . . . . . . . . . . . . . . .>     type STRING,
+. . . . . . . . . . . . . . . . . . . .>     amount DOUBLE, 
+. . . . . . . . . . . . . . . . . . . .>     nameOrig STRIN G,
+. . . . . . . . . . . . . . . . . . . .>     oldbalanceOrg  DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     newbalanceOrig  DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     originBalanceC hange DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     nameDest STRIN G,
+. . . . . . . . . . . . . . . . . . . .>     oldbalanceDest  DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     newbalanceDest  DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     destBalanceCha nge DOUBLE,
+. . . . . . . . . . . . . . . . . . . .>     isFraud INT,
+. . . . . . . . . . . . . . . . . . . .>     isFlaggedFraud  INT
+. . . . . . . . . . . . . . . . . . . .> )
+. . . . . . . . . . . . . . . . . . . .> ROW FORMAT DELIMIT ED
+. . . . . . . . . . . . . . . . . . . .> FIELDS TERMINATED  BY ','
+. . . . . . . . . . . . . . . . . . . .> STORED AS TEXTFILE 
+. . . . . . . . . . . . . . . . . . . .> LOCATION '/fraudle ns/processed/paysim_cleaned';
+INFO  : Compiling command(queryId=balaji_20261017045450_66e5bf52-6933-42a4-9324-1e30c08308ed): CREATE EXTERNAL TABLE IF NOT EXISTS paysim_cleaned (
+step INT,
+type STRING,
+amount DOUBLE,
+nameOrig STRING,
+oldbalanceOrg DOUBLE,
+newbalanceOrig DOUBLE,
+originBalanceChange DOUBLE,
+nameDest STRING,
+oldbalanceDest DOUBLE,
+newbalanceDest DOUBLE,
+destBalanceChange DOUBLE,
+isFraud INT,
+isFlaggedFraud INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/fraudlens/processed/paysim_cleaned'
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:null, properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045450_66e5bf52-6933-42a4-9324-1e30c08308ed); Time taken: 0.154 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045450_66e5bf52-6933-42a4-9324-1e30c08308ed): CREATE EXTERNAL TABLE IF NOT EXISTS paysim_cleaned (
+step INT,
+type STRING,
+amount DOUBLE,
+nameOrig STRING,
+oldbalanceOrg DOUBLE,
+newbalanceOrig DOUBLE,
+originBalanceChange DOUBLE,
+nameDest STRING,
+oldbalanceDest DOUBLE,
+newbalanceDest DOUBLE,
+destBalanceChange DOUBLE,
+isFraud INT,
+isFlaggedFraud INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/fraudlens/processed/paysim_cleaned'
+INFO  : Starting task [Stage-0:DDL] in serial mode
+INFO  : Completed executing command(queryId=balaji_20261017045450_66e5bf52-6933-42a4-9324-1e30c08308ed); Time taken: 0.969 seconds
+No rows affected (1.157 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 1. Overall tran saction and fraud statistics.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS to tal_transactions,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(
+. . . . . . . . . . . . . . . . . . . .>         100.0 * SU M(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+. . . . . . . . . . . . . . . . . . . .>         4
+. . . . . . . . . . . . . . . . . . . .>     ) AS fraud_per centage
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d;
+INFO  : Compiling command(queryId=balaji_20261017045452_a926a303-9852-42c9-886a-cd294c11d91a): SELECT
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+SUM(CASE WHEN isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions,
+ROUND(
+100.0 * SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+4
+) AS fraud_percentage
+FROM paysim_cleaned
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: isfraud
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:total_transactions, type:bigint, comment:null), FieldSchema(name:fraud_transactions, type:bigint, comment:null), FieldSchema(name:legitimate_transactions, type:bigint, comment:null), FieldSchema(name:fraud_percentage, type:decimal(28,4), comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045452_a926a303-9852-42c9-886a-cd294c11d91a); Time taken: 3.53 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045452_a926a303-9852-42c9-886a-cd294c11d91a): SELECT
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+SUM(CASE WHEN isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions,
+ROUND(
+100.0 * SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+4
+) AS fraud_percentage
+FROM paysim_cleaned
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017045452_a926a303-9852-42c9-886a-cd294c11d91a
+INFO  : Total jobs = 1
+INFO  : Launching Job 1 out of 1
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0002
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0002/
+INFO  : Starting Job = job_1792191158470_0002, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0002/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0002
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 1
+INFO  : 2026-10-17 04:55:35,515 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 04:56:36,743 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 04:57:12,944 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 53.58 sec
+INFO  : 2026-10-17 04:57:18,374 Stage-1 map = 44%,  reduce = 0%, Cumulative CPU 99.18 sec
+INFO  : 2026-10-17 04:57:19,496 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 104.09 sec
+INFO  : 2026-10-17 04:57:20,574 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 105.72 sec
+INFO  : 2026-10-17 04:57:28,427 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 112.28 sec
+INFO  : MapReduce Total cumulative CPU time: 1 minutes 52 seconds 280 msec
+INFO  : Ended Job = job_1792191158470_0002
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 1   Cumulative CPU: 112.28 sec   HDFS Read: 599002280 HDFS Write: 127 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 1 minutes 52 seconds 280 msec
+INFO  : Completed executing command(queryId=balaji_20261017045452_a926a303-9852-42c9-886a-cd294c11d91a); Time taken: 156.68 seconds
++---------------------+---------------------+--------------------------+-------------------+
+| total_transactions  | fraud_transactions  | legitimate_transactions  | fraud_percentage  |
++---------------------+---------------------+--------------------------+-------------------+
+| 6101255             | 7820                | 6093435                  | 0.1282            |
++---------------------+---------------------+--------------------------+-------------------+
+1 row selected (163.946 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 2. Transaction  volume and fraud rate by transaction type.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     type,
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS to tal_transactions,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(
+. . . . . . . . . . . . . . . . . . . .>         100.0 * SU M(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+. . . . . . . . . . . . . . . . . . . .>         4
+. . . . . . . . . . . . . . . . . . . .>     ) AS fraud_per centage
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d
+. . . . . . . . . . . . . . . . . . . .> GROUP BY type
+. . . . . . . . . . . . . . . . . . . .> ORDER BY fraud_tra nsactions DESC;
+INFO  : Compiling command(queryId=balaji_20261017045736_f35c6149-efdd-4c75-abe2-2313033522d5): SELECT
+type,
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+ROUND(
+100.0 * SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+4
+) AS fraud_percentage
+FROM paysim_cleaned
+GROUP BY type
+ORDER BY fraud_transactions DESC
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: isfraud, type
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:type, type:string, comment:null), FieldSchema(name:total_transactions, type:bigint, comment:null), FieldSchema(name:fraud_transactions, type:bigint, comment:null), FieldSchema(name:fraud_percentage, type:decimal(28,4), comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045736_f35c6149-efdd-4c75-abe2-2313033522d5); Time taken: 2.685 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045736_f35c6149-efdd-4c75-abe2-2313033522d5): SELECT
+type,
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+ROUND(
+100.0 * SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) / COUNT(*),
+4
+) AS fraud_percentage
+FROM paysim_cleaned
+GROUP BY type
+ORDER BY fraud_transactions DESC
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017045736_f35c6149-efdd-4c75-abe2-2313033522d5
+INFO  : Total jobs = 2
+INFO  : Launching Job 1 out of 2
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks not specified. Estimated from input data size: 3
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0003
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0003/
+INFO  : Starting Job = job_1792191158470_0003, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0003/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0003
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 3
+INFO  : 2026-10-17 04:57:55,560 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 04:58:27,363 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 22.42 sec
+INFO  : 2026-10-17 04:58:37,547 Stage-1 map = 44%,  reduce = 0%, Cumulative CPU 58.61 sec
+INFO  : 2026-10-17 04:58:38,738 Stage-1 map = 56%,  reduce = 0%, Cumulative CPU 60.19 sec
+INFO  : 2026-10-17 04:58:50,433 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 69.22 sec
+INFO  : 2026-10-17 04:58:51,579 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 70.2 sec
+INFO  : 2026-10-17 04:59:00,320 Stage-1 map = 100%,  reduce = 33%, Cumulative CPU 79.48 sec
+INFO  : 2026-10-17 04:59:01,397 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 97.06 sec
+INFO  : MapReduce Total cumulative CPU time: 1 minutes 37 seconds 60 msec
+INFO  : Ended Job = job_1792191158470_0003
+INFO  : Launching Job 2 out of 2
+INFO  : Starting task [Stage-2:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:1
+INFO  : Submitting tokens for job: job_1792191158470_0004
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0004/
+INFO  : Starting Job = job_1792191158470_0004, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0004/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0004
+INFO  : Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+INFO  : 2026-10-17 04:59:19,576 Stage-2 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 04:59:26,960 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 3.31 sec
+INFO  : 2026-10-17 04:59:34,278 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 6.33 sec
+INFO  : MapReduce Total cumulative CPU time: 6 seconds 330 msec
+INFO  : Ended Job = job_1792191158470_0004
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 3   Cumulative CPU: 97.06 sec   HDFS Read: 599023092 HDFS Write: 458 HDFS EC Read: 0 SUCCESS
+INFO  : Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 6.33 sec   HDFS Read: 10849 HDFS Write: 275 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 1 minutes 43 seconds 390 msec
+INFO  : Completed executing command(queryId=balaji_20261017045736_f35c6149-efdd-4c75-abe2-2313033522d5); Time taken: 116.787 seconds
++-----------+---------------------+---------------------+-------------------+
+|   type    | total_transactions  | fraud_transactions  | fraud_percentage  |
++-----------+---------------------+---------------------+-------------------+
+| TRANSFER  | 496844              | 3949                | 0.7948            |
+| CASH_OUT  | 2186659             | 3871                | 0.1770            |
+| PAYMENT   | 2151463             | 0                   | 0.0000            |
+| DEBIT     | 40484               | 0                   | 0.0000            |
+| CASH_IN   | 1225805             | 0                   | 0.0000            |
++-----------+---------------------+---------------------+-------------------+
+5 rows selected (119.72 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 3. Fraudulent t ransaction amount statistics.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS fr aud_count,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(MIN(amou nt), 2) AS minimum_amount,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(MAX(amou nt), 2) AS maximum_amount,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(AVG(amou nt), 2) AS average_amount,
+. . . . . . . . . . . . . . . . . . . .>     ROUND(SUM(amou nt), 2) AS total_fraud_amount
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d
+. . . . . . . . . . . . . . . . . . . .> WHERE isFraud = 1; 
+INFO  : Compiling command(queryId=balaji_20261017045936_33c88bf5-7ddd-4bfd-8c32-fff84168a7bc): SELECT
+COUNT(*) AS fraud_count,
+ROUND(MIN(amount), 2) AS minimum_amount,
+ROUND(MAX(amount), 2) AS maximum_amount,
+ROUND(AVG(amount), 2) AS average_amount,
+ROUND(SUM(amount), 2) AS total_fraud_amount
+FROM paysim_cleaned
+WHERE isFraud = 1
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: amount, isfraud
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:fraud_count, type:bigint, comment:null), FieldSchema(name:minimum_amount, type:double, comment:null), FieldSchema(name:maximum_amount, type:double, comment:null), FieldSchema(name:average_amount, type:double, comment:null), FieldSchema(name:total_fraud_amount, type:double, comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017045936_33c88bf5-7ddd-4bfd-8c32-fff84168a7bc); Time taken: 1.963 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017045936_33c88bf5-7ddd-4bfd-8c32-fff84168a7bc): SELECT
+COUNT(*) AS fraud_count,
+ROUND(MIN(amount), 2) AS minimum_amount,
+ROUND(MAX(amount), 2) AS maximum_amount,
+ROUND(AVG(amount), 2) AS average_amount,
+ROUND(SUM(amount), 2) AS total_fraud_amount
+FROM paysim_cleaned
+WHERE isFraud = 1
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017045936_33c88bf5-7ddd-4bfd-8c32-fff84168a7bc
+INFO  : Total jobs = 1
+INFO  : Launching Job 1 out of 1
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0005
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0005/
+INFO  : Starting Job = job_1792191158470_0005, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0005/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0005
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 1
+INFO  : 2026-10-17 04:59:52,049 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:00:15,027 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 36.5 sec
+INFO  : 2026-10-17 05:00:18,405 Stage-1 map = 44%,  reduce = 0%, Cumulative CPU 42.64 sec
+INFO  : 2026-10-17 05:00:20,557 Stage-1 map = 67%,  reduce = 0%, Cumulative CPU 45.12 sec
+INFO  : 2026-10-17 05:00:22,658 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 53.16 sec
+INFO  : 2026-10-17 05:00:27,871 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 59.48 sec
+INFO  : MapReduce Total cumulative CPU time: 59 seconds 480 msec
+INFO  : Ended Job = job_1792191158470_0005
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 1   Cumulative CPU: 59.48 sec   HDFS Read: 599005308 HDFS Write: 146 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 59 seconds 480 msec
+INFO  : Completed executing command(queryId=balaji_20261017045936_33c88bf5-7ddd-4bfd-8c32-fff84168a7bc); Time taken: 50.06 seconds
++--------------+-----------------+-----------------+-----------------+---------------------+
+| fraud_count  | minimum_amount  | maximum_amount  | average_amount  | total_fraud_amount  |
++--------------+-----------------+-----------------+-----------------+---------------------+
+| 7820         | 0.0             | 9996886.64      | 1135842.73      | 8.88229012467E9     |
++--------------+-----------------+-----------------+-----------------+---------------------+
+1 row selected (52.381 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 4. Compare flag ged and unflagged transactions.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     isFlaggedFraud ,
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS to tal_transactions,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d
+. . . . . . . . . . . . . . . . . . . .> GROUP BY isFlagged Fraud
+. . . . . . . . . . . . . . . . . . . .> ORDER BY isFlagged Fraud;
+INFO  : Compiling command(queryId=balaji_20261017050029_10c0dec7-21fb-450e-b963-5f3bf19e7c17): SELECT
+isFlaggedFraud,
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+SUM(CASE WHEN isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions
+FROM paysim_cleaned
+GROUP BY isFlaggedFraud
+ORDER BY isFlaggedFraud
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: isfraud, isflaggedfraud
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:isflaggedfraud, type:int, comment:null), FieldSchema(name:total_transactions, type:bigint, comment:null), FieldSchema(name:fraud_transactions, type:bigint, comment:null), FieldSchema(name:legitimate_transactions, type:bigint, comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017050029_10c0dec7-21fb-450e-b963-5f3bf19e7c17); Time taken: 2.54 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017050029_10c0dec7-21fb-450e-b963-5f3bf19e7c17): SELECT
+isFlaggedFraud,
+COUNT(*) AS total_transactions,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_transactions,
+SUM(CASE WHEN isFraud = 0 THEN 1 ELSE 0 END) AS legitimate_transactions
+FROM paysim_cleaned
+GROUP BY isFlaggedFraud
+ORDER BY isFlaggedFraud
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017050029_10c0dec7-21fb-450e-b963-5f3bf19e7c17
+INFO  : Total jobs = 2
+INFO  : Launching Job 1 out of 2
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks not specified. Estimated from input data size: 3
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0006
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0006/
+INFO  : Starting Job = job_1792191158470_0006, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0006/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0006
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 3
+INFO  : 2026-10-17 05:00:45,979 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:01:15,663 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 19.03 sec
+INFO  : 2026-10-17 05:01:22,241 Stage-1 map = 44%,  reduce = 0%, Cumulative CPU 63.46 sec
+INFO  : 2026-10-17 05:01:23,418 Stage-1 map = 56%,  reduce = 0%, Cumulative CPU 68.57 sec
+INFO  : 2026-10-17 05:01:25,750 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 69.48 sec
+INFO  : 2026-10-17 05:01:26,883 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 70.69 sec
+INFO  : 2026-10-17 05:01:35,688 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 87.27 sec
+INFO  : MapReduce Total cumulative CPU time: 1 minutes 27 seconds 270 msec
+INFO  : Ended Job = job_1792191158470_0006
+INFO  : Launching Job 2 out of 2
+INFO  : Starting task [Stage-2:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:1
+INFO  : Submitting tokens for job: job_1792191158470_0007
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0007/
+INFO  : Starting Job = job_1792191158470_0007, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0007/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0007
+INFO  : Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+INFO  : 2026-10-17 05:01:54,218 Stage-2 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:02:01,578 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 2.74 sec
+INFO  : 2026-10-17 05:02:08,984 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 6.96 sec
+INFO  : MapReduce Total cumulative CPU time: 6 seconds 960 msec
+INFO  : Ended Job = job_1792191158470_0007
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 3   Cumulative CPU: 87.27 sec   HDFS Read: 599022006 HDFS Write: 338 HDFS EC Read: 0 SUCCESS
+INFO  : Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 6.96 sec   HDFS Read: 10724 HDFS Write: 144 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 1 minutes 34 seconds 230 msec
+INFO  : Completed executing command(queryId=balaji_20261017050029_10c0dec7-21fb-450e-b963-5f3bf19e7c17); Time taken: 98.786 seconds
++-----------------+---------------------+---------------------+--------------------------+
+| isflaggedfraud  | total_transactions  | fraud_transactions  | legitimate_transactions  |
++-----------------+---------------------+---------------------+--------------------------+
+| 0               | 6101245             | 7810                | 6093435                  |
+| 1               | 10                  | 10                  | 0                        |
++-----------------+---------------------+---------------------+--------------------------+
+2 rows selected (101.989 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 5. Fraud statis tics by transaction type and flagged status.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     type,
+. . . . . . . . . . . . . . . . . . . .>     isFlaggedFraud ,
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS tr ansaction_count,
+. . . . . . . . . . . . . . . . . . . .>     SUM(CASE WHEN  isFraud = 1 THEN 1 ELSE 0 END) AS fraud_count
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d
+. . . . . . . . . . . . . . . . . . . .> GROUP BY type, isF laggedFraud
+. . . . . . . . . . . . . . . . . . . .> ORDER BY type, isF laggedFraud;
+INFO  : Compiling command(queryId=balaji_20261017050212_58625fd2-1d5b-44be-828f-a2a3cf839078): SELECT
+type,
+isFlaggedFraud,
+COUNT(*) AS transaction_count,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_count
+FROM paysim_cleaned
+GROUP BY type, isFlaggedFraud
+ORDER BY type, isFlaggedFraud
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: isfraud, type, isflaggedfraud
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:type, type:string, comment:null), FieldSchema(name:isflaggedfraud, type:int, comment:null), FieldSchema(name:transaction_count, type:bigint, comment:null), FieldSchema(name:fraud_count, type:bigint, comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017050212_58625fd2-1d5b-44be-828f-a2a3cf839078); Time taken: 1.375 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017050212_58625fd2-1d5b-44be-828f-a2a3cf839078): SELECT
+type,
+isFlaggedFraud,
+COUNT(*) AS transaction_count,
+SUM(CASE WHEN isFraud = 1 THEN 1 ELSE 0 END) AS fraud_count
+FROM paysim_cleaned
+GROUP BY type, isFlaggedFraud
+ORDER BY type, isFlaggedFraud
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017050212_58625fd2-1d5b-44be-828f-a2a3cf839078
+INFO  : Total jobs = 2
+INFO  : Launching Job 1 out of 2
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks not specified. Estimated from input data size: 3
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0008
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0008/
+INFO  : Starting Job = job_1792191158470_0008, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0008/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0008
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 3
+INFO  : 2026-10-17 05:02:27,827 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:02:59,666 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 44.04 sec
+INFO  : 2026-10-17 05:03:00,803 Stage-1 map = 44%,  reduce = 0%, Cumulative CPU 46.26 sec
+INFO  : 2026-10-17 05:03:01,882 Stage-1 map = 56%,  reduce = 0%, Cumulative CPU 48.67 sec
+INFO  : 2026-10-17 05:03:06,460 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 52.1 sec
+INFO  : 2026-10-17 05:03:07,667 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 55.67 sec
+INFO  : 2026-10-17 05:03:18,774 Stage-1 map = 100%,  reduce = 67%, Cumulative CPU 68.56 sec
+INFO  : 2026-10-17 05:03:19,828 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 74.18 sec
+INFO  : MapReduce Total cumulative CPU time: 1 minutes 14 seconds 180 msec
+INFO  : Ended Job = job_1792191158470_0008
+INFO  : Launching Job 2 out of 2
+INFO  : Starting task [Stage-2:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:1
+INFO  : Submitting tokens for job: job_1792191158470_0009
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0009/
+INFO  : Starting Job = job_1792191158470_0009, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0009/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0009
+INFO  : Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+INFO  : 2026-10-17 05:03:37,922 Stage-2 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:03:45,349 Stage-2 map = 100%,  reduce = 0%
+INFO  : 2026-10-17 05:03:52,748 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 6.85 sec
+INFO  : MapReduce Total cumulative CPU time: 6 seconds 850 msec
+INFO  : Ended Job = job_1792191158470_0009
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 3   Cumulative CPU: 74.18 sec   HDFS Read: 599020689 HDFS Write: 475 HDFS EC Read: 0 SUCCESS
+INFO  : Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 6.85 sec   HDFS Read: 11126 HDFS Write: 279 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 1 minutes 21 seconds 30 msec
+INFO  : Completed executing command(queryId=balaji_20261017050212_58625fd2-1d5b-44be-828f-a2a3cf839078); Time taken: 100.904 seconds
++-----------+-----------------+--------------------+--------------+
+|   type    | isflaggedfraud  | transaction_count  | fraud_count  |
++-----------+-----------------+--------------------+--------------+
+| CASH_IN   | 0               | 1225805            | 0            |
+| CASH_OUT  | 0               | 2186659            | 3871         |
+| DEBIT     | 0               | 40484              | 0            |
+| PAYMENT   | 0               | 2151463            | 0            |
+| TRANSFER  | 0               | 496834             | 3939         |
+| TRANSFER  | 1               | 10                 | 10           |
++-----------+-----------------+--------------------+--------------+
+6 rows selected (102.412 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> -- 6. Fraudulent t ransactions with no observed origin balance remaining.
+0: jdbc:hive2://localhost:10000/default> SELECT
+. . . . . . . . . . . . . . . . . . . .>     COUNT(*) AS fr aud_count,
+. . . . . . . . . . . . . . . . . . . .>     SUM(
+. . . . . . . . . . . . . . . . . . . .>         CASE
+. . . . . . . . . . . . . . . . . . . .>             WHEN n ewbalanceOrig = 0 THEN 1
+. . . . . . . . . . . . . . . . . . . .>             ELSE 0 
+. . . . . . . . . . . . . . . . . . . .>         END
+. . . . . . . . . . . . . . . . . . . .>     ) AS frauds_wi th_zero_origin_balance,
+. . . . . . . . . . . . . . . . . . . .>     SUM(
+. . . . . . . . . . . . . . . . . . . .>         CASE
+. . . . . . . . . . . . . . . . . . . .>             WHEN n ewbalanceDest = 0 THEN 1
+. . . . . . . . . . . . . . . . . . . .>             ELSE 0 
+. . . . . . . . . . . . . . . . . . . .>         END
+. . . . . . . . . . . . . . . . . . . .>     ) AS frauds_wi th_zero_destination_balance
+. . . . . . . . . . . . . . . . . . . .> FROM paysim_cleane d
+. . . . . . . . . . . . . . . . . . . .> WHERE isFraud = 1; 
+INFO  : Compiling command(queryId=balaji_20261017050355_ed0aa2f5-52dd-4ccf-8da8-3528846dadc9): SELECT
+COUNT(*) AS fraud_count,
+SUM(
+CASE
+WHEN newbalanceOrig = 0 THEN 1
+ELSE 0
+END
+) AS frauds_with_zero_origin_balance,
+SUM(
+CASE
+WHEN newbalanceDest = 0 THEN 1
+ELSE 0
+END
+) AS frauds_with_zero_destination_balance
+FROM paysim_cleaned
+WHERE isFraud = 1
+INFO  : No Stats for fraudlens@paysim_cleaned, Columns: newbalancedest, isfraud, newbalanceorig
+INFO  : Semantic Analysis Completed (retrial = false)
+INFO  : Created Hive schema: Schema(fieldSchemas:[FieldSchema(name:fraud_count, type:bigint, comment:null), FieldSchema(name:frauds_with_zero_origin_balance, type:bigint, comment:null), FieldSchema(name:frauds_with_zero_destination_balance, type:bigint, comment:null)], properties:null)
+INFO  : Completed compiling command(queryId=balaji_20261017050355_ed0aa2f5-52dd-4ccf-8da8-3528846dadc9); Time taken: 1.376 seconds
+INFO  : Concurrency mode is disabled, not creating a lock manager
+INFO  : Executing command(queryId=balaji_20261017050355_ed0aa2f5-52dd-4ccf-8da8-3528846dadc9): SELECT
+COUNT(*) AS fraud_count,
+SUM(
+CASE
+WHEN newbalanceOrig = 0 THEN 1
+ELSE 0
+END
+) AS frauds_with_zero_origin_balance,
+SUM(
+CASE
+WHEN newbalanceDest = 0 THEN 1
+ELSE 0
+END
+) AS frauds_with_zero_destination_balance
+FROM paysim_cleaned
+WHERE isFraud = 1
+WARN  : Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. tez) or using Hive 1.X releases.
+INFO  : Query ID = balaji_20261017050355_ed0aa2f5-52dd-4ccf-8da8-3528846dadc9
+INFO  : Total jobs = 1
+INFO  : Launching Job 1 out of 1
+INFO  : Starting task [Stage-1:MAPRED] in serial mode
+INFO  : Number of reduce tasks determined at compile time: 1
+INFO  : In order to change the average load for a reducer (in bytes):
+INFO  :   set hive.exec.reducers.bytes.per.reducer=<number>
+INFO  : In order to limit the maximum number of reducers:
+INFO  :   set hive.exec.reducers.max=<number>
+INFO  : In order to set a constant number of reducers:
+INFO  :   set mapreduce.job.reduces=<number>
+INFO  : number of splits:3
+INFO  : Submitting tokens for job: job_1792191158470_0010
+INFO  : Executing with tokens: []
+INFO  : The url to track the job: http://balaji-VirtualBox:8088/proxy/application_1792191158470_0010/
+INFO  : Starting Job = job_1792191158470_0010, Tracking URL = http://balaji-VirtualBox:8088/proxy/application_1792191158470_0010/
+INFO  : Kill Command = /home/balaji/hadoop/bin/mapred job  -kill job_1792191158470_0010
+INFO  : Hadoop job information for Stage-1: number of mappers: 3; number of reducers: 1
+INFO  : 2026-10-17 05:04:10,348 Stage-1 map = 0%,  reduce = 0%
+INFO  : 2026-10-17 05:04:34,857 Stage-1 map = 33%,  reduce = 0%, Cumulative CPU 39.9 sec
+INFO  : 2026-10-17 05:04:37,232 Stage-1 map = 56%,  reduce = 0%, Cumulative CPU 50.49 sec
+INFO  : 2026-10-17 05:04:40,515 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 53.12 sec
+INFO  : 2026-10-17 05:04:41,580 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 56.77 sec
+INFO  : 2026-10-17 05:04:45,816 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 61.79 sec
+INFO  : MapReduce Total cumulative CPU time: 1 minutes 1 seconds 790 msec
+INFO  : Ended Job = job_1792191158470_0010
+INFO  : MapReduce Jobs Launched: 
+INFO  : Stage-Stage-1: Map: 3  Reduce: 1   Cumulative CPU: 61.79 sec   HDFS Read: 599003350 HDFS Write: 114 HDFS EC Read: 0 SUCCESS
+INFO  : Total MapReduce CPU Time Spent: 1 minutes 1 seconds 790 msec
+INFO  : Completed executing command(queryId=balaji_20261017050355_ed0aa2f5-52dd-4ccf-8da8-3528846dadc9); Time taken: 49.905 seconds
++--------------+----------------------------------+---------------------------------------+
+| fraud_count  | frauds_with_zero_origin_balance  | frauds_with_zero_destination_balance  |
++--------------+----------------------------------+---------------------------------------+
+| 7820         | 7808                             | 3943                                  |
++--------------+----------------------------------+---------------------------------------+
+1 row selected (51.398 seconds)
+0: jdbc:hive2://localhost:10000/default> 
+0: jdbc:hive2://localhost:10000/default> Closing: 0: jdbc:hive2://localhost:10000/default
